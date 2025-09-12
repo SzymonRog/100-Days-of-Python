@@ -1,10 +1,11 @@
 import random
 import time
+from shutil import which
 from turtle import Turtle
 
 COLORS = ["red", "orange", "yellow", "green", "blue", "purple"]
 STARTING_MOVE_DISTANCE = 5
-MOVE_INCREMENT = 2
+MOVE_INCREMENT = 4
 
 
 class CarManager:
@@ -30,7 +31,7 @@ class CarManager:
                 car.goto(x=random.randint(310, 1200), y=random.choice(range(-230, 230, 40)))
 
     def start_cars(self):
-        for i in range(15):
+        for i in range(30):
             self.generate_car()
 
     def detect_collision(self,player):
@@ -41,5 +42,13 @@ class CarManager:
 
     def increase_speed(self):
         self.car_speed += MOVE_INCREMENT
-        for i in range(MOVE_INCREMENT):
-            self.generate_car()
+        self.remove_cars(MOVE_INCREMENT)
+
+    def remove_cars(self,number_to_remove):
+        cars_to_remove = [car for car in self.cars if car.xcor() > 900 ]
+        for i in range(number_to_remove):
+            try:
+                self.cars.remove(cars_to_remove[i])
+            except IndexError:
+                pass
+

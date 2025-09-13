@@ -19,6 +19,7 @@ class Snake:
             segment.penup()
             segment.setx(segment.xcor() - STEP * i)
             self.snake.append(segment)
+
     def add_segment(self):
         segment = turtle.Turtle(shape="square")
         segment.color("white")
@@ -68,4 +69,13 @@ class Snake:
             if head.distance(segment) < 10:
                 return True
         return False
+
+    def reset(self):
+        for segment in self.snake:
+            segment.goto(1000, 1000)
+            segment.hideturtle()
+        self.snake.clear()
+        self.length = 3
+        self.create_snake()
+
 

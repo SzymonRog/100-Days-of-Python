@@ -2,6 +2,7 @@ import string
 import tkinter
 from tkinter import messagebox
 import random
+import json
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def generate_password(length=12):
     characters = string.ascii_letters + string.digits + "!@#$%"
@@ -21,6 +22,12 @@ def add_password():
     website = website_input.get()
     email = email_input.get()
     password = password_input.get()
+    new_data = {
+        website: {
+            "email": email,
+            "password": password
+        }
+    }
 
     if len(website) == 0 or len(password) == 0 or len(email) == 0:
         messagebox.showinfo(title="Error", message="Please don't leave any fields empty!")
@@ -29,12 +36,41 @@ def add_password():
     is_ok = messagebox.askokcancel(title=website, message=f"These are the details entered: \nEmail: {email}\nPassword: {password}\nIs it ok to save?")
 
     if is_ok:
-        with open("data.txt", "a") as file:
-            file.write(f"{website} | {email} | {password}\n")
+        try:
+            file =  open("data.json", "r")
+            data = json.load(file)
+        except FileNotFoundError:
+            with open("data.json", "w") as file:
+                json.dump(new_data, file, indent=4)
+        else:
+            data.update(new_data)
 
-        website_input.delete(0, tkinter.END)
-        password_input.delete(0, tkinter.END)
+            with open("data.json", "w") as data_file:
+                json.dump(data, data_file, indent=4)
 
+        finally:
+            file.close()
+            website_input.delete(0, tkinter.END)
+            password_input.delete(0, tkinter.END)
+
+
+
+
+# ---------------------------- Search Website ------------------------------- #
+def search_website():
+    website = website_input.get()
+    try:
+        with open("data.json", "r") as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message="No Data File Found!")
+    else:
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {password}")
+        else:
+            messagebox.showinfo(title="Error", message="No details for such website exists!")
 
 
 
@@ -64,7 +100,7 @@ password_label.config(pady=3, padx=10)
 
 # Inputs
 website_input = tkinter.Entry(width=35)
-website_input.grid(column=1, row=1, columnspan=2,sticky="we")
+website_input.grid(column=1, row=1,sticky="we", padx=(0, 20))
 email_input = tkinter.Entry(width=35)
 email_input.insert(0,"szymonrogala78@gmail.com")
 email_input.grid(column=1, row=2, columnspan=2,sticky="we")
@@ -80,5 +116,7 @@ generate_password_button.grid(column=2,row=3)
 add_button = tkinter.Button(text="Add" ,width=36, command=add_password)
 add_button.grid(column=1,row=4,columnspan=2, sticky="we")
 
+search_button = tkinter.Button(text="Search", width=15, command=search_website)
+search_button.grid(column=2, row=1, sticky="we")
 
 window.mainloop()

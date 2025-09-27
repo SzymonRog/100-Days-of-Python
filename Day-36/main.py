@@ -61,7 +61,7 @@ change_percentage = calculate_percentage_change(
 # ----------- Pobranie wiadomości z NewsAPI -------------
 def get_news(since_date):
     params = {
-        "q": COMPANY_NAME,
+        "qInTitle": COMPANY_NAME,
         "from": since_date,
         "language": "en",
         "sortBy": "relevancy",

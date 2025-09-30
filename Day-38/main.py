@@ -59,4 +59,4 @@ for exercise in response.json()["exercises"]:
     sheety_response.raise_for_status()
     print(f"{name}: {duration} minutes, {calories} calories")
 
-print(f"Total calories burned: {total_calories}")
+print(f"Total calories burned: {round(total_calories,1)}")

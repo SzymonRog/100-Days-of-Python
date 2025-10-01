@@ -12,8 +12,8 @@ class NotificationManager:
 
 
     def generate_message(self, data):
-        date = datetime.strptime(data["date"].split("T")[0], "%Y-%m-%d")
-        until_date = datetime.strptime(data["until"].split("T")[0], "%Y-%m-%d")
+        date = data["date"].split("T")[0]
+        until_date = data["until"].split("T")[0]
 
         message = (
             f"-Low price alert!\n"
@@ -23,6 +23,7 @@ class NotificationManager:
         )
 
         print(message)
+        self.send_sms(message)
         return message
 
 

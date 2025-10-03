@@ -1,3 +1,5 @@
+from numpy.random import choice
+
 from flight_data import FlightData
 from flight_search import FlightSearch
 from notification_manager import NotificationManager
@@ -7,6 +9,13 @@ flight_data = FlightData()
 flight_search = FlightSearch()
 notification_manager = NotificationManager()
 user_manager = UserMenager()
+
+while True:
+    user_choice = input("Do you want to add new user? (yes/no): ").lower()
+    if user_choice == "yes":
+        user_manager.add_user()
+    else:
+        break
 
 users = user_manager.fetch_users()
 result = flight_data.find_all_deals()

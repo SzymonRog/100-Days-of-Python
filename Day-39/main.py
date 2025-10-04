@@ -1,4 +1,4 @@
-from numpy.random import choice
+
 
 from flight_data import FlightData
 from flight_search import FlightSearch
@@ -21,6 +21,7 @@ users = user_manager.fetch_users()
 result = flight_data.find_all_deals()
 cheapest_per_dest = flight_search.find_best_deals(result)
 print(cheapest_per_dest)
+
 
 for deal in cheapest_per_dest:
     notification_manager.send_emails(user_data=users,data=cheapest_per_dest[deal])

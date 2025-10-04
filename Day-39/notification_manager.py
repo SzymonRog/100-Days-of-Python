@@ -33,7 +33,7 @@ class NotificationManager:
         )
 
         print(message)
-        # self.send_sms(message)
+
         return message
 
     def send_emails(self, user_data,data):

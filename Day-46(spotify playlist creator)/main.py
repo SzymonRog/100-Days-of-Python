@@ -9,11 +9,14 @@ from bs4 import BeautifulSoup
 from datetime import *
 
 dotenv.load_dotenv()
+# -------------------User input ------------------
+
 user_choice = input("From which date do you want to scrape the data? (write date in format YYYY-MM- or write 'now')': ")
 if user_choice == "now":
     date = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
 else:
     date = datetime.strptime(user_choice, "%Y-%m-%d")
+
 
 # -------------------Data scraping ----------------
 response = requests.get(f"https://www.billboard.com/charts/hot-100{date}")

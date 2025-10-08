@@ -39,39 +39,42 @@ def click_btns(buttons):
     for btn in buttons:
         btn.click()
 
-login()
-wait = WebDriverWait(driver, 5)
-BookClassBtns = wait.until(EC.presence_of_all_elements_located(
-    (By.CSS_SELECTOR, '.ClassCard_cardActions__tVZBm button')
-))
+try:
+    login()
+    wait = WebDriverWait(driver, 5)
+    BookClassBtns = wait.until(EC.presence_of_all_elements_located(
+        (By.CSS_SELECTOR, '.ClassCard_cardActions__tVZBm button')
+    ))
+
+
+    all_classes = []
+    classes_to_book = []
+    for btn in BookClassBtns:
+        btn_id = btn.get_attribute('id')
+        date = btn_id.split('-')[-4:-1]
+        date = '-'.join(date)
+        date_obj = datetime.strptime(date, '%Y-%m-%d')
+
+        if date_obj.weekday() == 1 or date_obj.weekday() == 3:
+            if  btn.is_enabled():
+
+                if btn.text == 'Book Class':
+                    classes_booked += 1
+                elif btn.text == 'Join Waitlist':
+                    waitlists_joined += 1
+
+                classes_to_book.append(btn)
+            else:
+                already_booked_waitlisted += 1
+            total_classes += 1
 
 
 
-classes_to_book = []
-for btn in BookClassBtns:
-    btn_id = btn.get_attribute('id')
-    date = btn_id.split('-')[-4:-1]
-    date = '-'.join(date)
-    date_obj = datetime.strptime(date, '%Y-%m-%d')
-
-    if date_obj.weekday() == 2:
-        if  btn.is_enabled():
-
-            if btn.text == 'Book Class':
-                classes_booked += 1
-            elif btn.text == 'Join Waitlist':
-                waitlists_joined += 1
-
-            classes_to_book.append(btn)
-        else:
-            already_booked_waitlisted += 1
-        total_classes += 1
 
 
-
-
-
-click_btns(classes_to_book)
+    click_btns(classes_to_book)
+except Exception as e:
+    print(e)
 print(f"Classes booked: {classes_booked}")
 print(f"Waitlists joined: {waitlists_joined}")
 print(f"Already booked waitlisted: {already_booked_waitlisted}")

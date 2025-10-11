@@ -2,7 +2,7 @@ import time
 
 from  datascraper import DataScraper
 from selenium import webdriver
-from selenium.webdriver.support.wait import WebDriverWait
+
 
 data_scraper = DataScraper()
 offers = data_scraper.get_offers()

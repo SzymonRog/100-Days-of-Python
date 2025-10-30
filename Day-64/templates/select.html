@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Select Movie{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="heading">Select Movie</h1>
+    {% for movie in movies %}
+        <p>
+            <p>{{ movie.title }} ({{ movie.release_date }})</p>
+            <p>{{ movie.overview }}</p>
+            <form action="{{ url_for('select')}}" method="post">
+                <input type="hidden" name="title" value="{{ movie.title }}">
+                <input type="hidden" name="year" value="{{ movie.release_date }}">
+                <input type="hidden" name="description" value="{{ movie.overview }}">
+                <input type="hidden" name="img_url" value="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}">
+
+                <button type="submit">Select</button>
+            </form>
+        </p>
+    {% endfor %}
+
+
+</div>
+{% endblock %}
